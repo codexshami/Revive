@@ -53,7 +53,7 @@ Users can enter medical parameters and the system will predict possible diseases
 
 ---
 
-# ❗ Problem Statement
+#  Problem Statement
 
 Revive can be time consuming and sometimes prone to human errors.
 
@@ -71,7 +71,7 @@ to quickly identify possible diseases using AI.
 
 ---
 
-# 💡 Why This Project
+#  Why This Project
 
 Humans can make mistakes during diagnosis due to fatigue or workload.
 
@@ -88,36 +88,36 @@ Datasets were collected from **Kaggle** and **UCI Machine Learning Repository**.
 
 ---
 
-# 🔄 Flow Chart
-Revive
-│
-├── images
-│ ├── breast_cancer.png
-│ ├── diabetes.png
-│ ├── heart.png
-│ ├── kidney.png
-│ ├── liver.png
-│ ├── malaria.png
-│ ├── pneumonia.png
-│ └── logo.png
-│
-├── models
-│ └── trained_models
-│
-├── templates
-│ ├── index.html
-│ ├── about.html
-│ ├── contact.html
-│ └── services.html
-│
-├── static
-│ ├── css
-│ ├── js
-│ └── images
-│
-├── app.py
-├── requirements.txt
-└── README.md
+#  Flow Chart
+Start
+              │
+              ▼
+        User Opens Website
+              │
+              ▼
+          Home Page
+              │
+   ┌──────────┼──────────┐
+   ▼          ▼          ▼
+ About      Services    Contact
+   │           │
+   │           ▼
+   │     Select Disease
+   │           │
+   │           ▼
+   │     Enter Medical Data
+   │           │
+   │           ▼
+   │   Load Trained ML Model
+   │           │
+   │           ▼
+   │     Model Prediction
+   │           │
+   │           ▼
+   │     Display Result
+   │           │
+   └───────────▼
+            End
 
 ---
 
@@ -129,7 +129,7 @@ Clone the repository
 
 
 git clone https://github.com/codexshami/Revive
-## ⚡ Quick Start
+##  Quick Start
 
 ### Step 1
 Clone the repository
@@ -174,7 +174,7 @@ http://127.0.0.1:5000
 
 ---
 
-# 📸 Screenshots
+#  Screenshots
 ### Home
 ![Pneumonia Detection](images/home.png)
 
@@ -271,6 +271,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND.
 ```
 
 <p align="center">
-Made with ❤️ by Mohd Shami
+Made by Mohd Shami
 </p>
 
