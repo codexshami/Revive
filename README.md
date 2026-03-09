@@ -127,7 +127,7 @@ Revive
 
 Clone the repository
 
-```bash
+
 git clone https://github.com/codexshami/Revive
 ## ⚡ Quick Start
 
@@ -135,14 +135,14 @@ git clone https://github.com/codexshami/Revive
 Clone the repository
 
 ```bash
-git clone https://github.com/codexshami/Medical_Diagnosis
+git clone https://github.com/codexshami/Revive
 ```
 
 ### Step 2
 Go to project directory
 
 ```bash
-cd Medical_Diagnosis
+cd Revive
 ```
 
 ### Step 3
