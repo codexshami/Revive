@@ -1,0 +1,352 @@
+{% extends 'main.html' %}
+{% block content %}
+<style>
+    /* --- THEME VARIABLES --- */
+    :root {
+        --primary-emerald: #047857;       /* Emerald Green */
+        --secondary-teal: #0d9488;        /* Teal Blue */
+        --accent-neon: #39ff14;           /* Neon Green */
+        --bg-light: #f0fdf4;              /* Very light emerald tint */
+        --text-dark: #1f2937;
+        --text-light: #6b7280;
+        --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+     /* Navbar */
+    .navbar{
+        background: linear-gradient(90deg, var(--primary-emerald), var(--secondary-teal));
+        padding:12px 20px;
+        margin-bottom:25px;
+        border-radius:10px;
+        box-shadow: var(--card-shadow);
+    }
+
+/* Navbar list */
+    .nav-links{
+        list-style:none;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        gap:25px;
+        margin:0;
+        padding:0;
+    }
+
+/* Links */
+    .nav-links li a{
+        text-decoration:none;
+        color:white;
+        font-weight:600;
+        font-size:16px;
+        padding:8px 12px;
+        border-radius:6px;
+        transition:all 0.3s ease;
+    }
+
+/* Hover effect */
+    .nav-links li a:hover{
+        background:rgba(255,255,255,0.15);
+        color:var(--accent-neon);
+        transform:translateY(-2px);
+    }
+
+/* Active link */
+    .nav-links li a.active{
+        background:white;
+        color:var(--primary-emerald);
+    }
+    /* --- GLOBAL STYLES --- */
+    body {
+        background: linear-gradient(135deg, #ecfdf5 0%, #f0f9ff 100%); /* Medical Gradient */
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: var(--text-dark);
+        padding-bottom: 50px;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin-top: 30px;
+    }
+
+    /* --- ALERT BOX --- */
+    .alert-danger {
+        background-color: #fee2e2;
+        border: 1px solid #fca5a5;
+        color: #991b1b;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+
+    /* --- MAIN HEADER CARD --- */
+    .main-header-card {
+        background: white;
+        border-radius: 16px;
+        padding: 40px;
+        text-align: center;
+        box-shadow: var(--card-shadow);
+        border-top: 5px solid var(--primary-emerald);
+        margin-bottom: 40px;
+    }
+
+    .main-header-card h2 {
+        color: var(--primary-emerald);
+        font-weight: 800;
+        letter-spacing: 1px;
+        margin-bottom: 15px;
+        text-transform: uppercase;
+    }
+
+    .main-header-card p {
+        color: var(--text-light);
+        font-size: 1.1rem;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    /* --- ACCURACY SECTION --- */
+    .accuracy-section {
+        background: white;
+        border-radius: 16px;
+        padding: 30px;
+        box-shadow: var(--card-shadow);
+        margin-bottom: 40px;
+    }
+
+    .accuracy-section h2 {
+        color: var(--secondary-teal);
+        border-bottom: 2px solid var(--bg-light);
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+    }
+
+    .accuracy-list {
+        list-style: none;
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 15px;
+    }
+
+    .accuracy-list li {
+        background: var(--bg-light);
+        padding: 15px;
+        border-radius: 8px;
+        border-left: 4px solid var(--secondary-teal);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .accuracy-list li:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(13, 148, 136, 0.2);
+        border-left-color: var(--accent-neon);
+    }
+
+    .accuracy-list li strong {
+        color: var(--primary-emerald);
+        font-size: 1.2rem;
+        display: block;
+        margin-top: 5px;
+    }
+
+    /* --- DISEASE CARDS --- */
+    .disease-card {
+        background: white;
+        border-radius: 12px;
+        padding: 25px;
+        margin-bottom: 20px;
+        box-shadow: var(--card-shadow);
+        border: 1px solid #e5e7eb;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .disease-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 5px;
+        height: 100%;
+        background: var(--primary-emerald);
+        transition: width 0.3s ease;
+    }
+
+    .disease-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(4, 120, 87, 0.15);
+    }
+
+    .disease-card:hover::before {
+        width: 100%;
+        opacity: 0.05;
+    }
+
+    .disease-card h4 {
+        color: var(--primary-emerald);
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+    }
+
+    .disease-card h4::before {
+        content: '🩺'; /* Medical Icon */
+        margin-right: 10px;
+        font-size: 1.2rem;
+    }
+
+    .disease-card h5 {
+        color: var(--secondary-teal);
+        margin-top: 20px;
+        margin-bottom: 10px;
+        font-weight: 600;
+    }
+
+    .disease-card ul {
+        padding-left: 20px;
+        color: var(--text-light);
+    }
+
+    .disease-card li {
+        margin-bottom: 5px;
+    }
+
+    /* --- RESPONSIVE TWEAKS --- */
+    @media (max-width: 768px) {
+        .main-header-card h2 {
+            font-size: 1.5rem;
+        }
+        .disease-card {
+            padding: 20px;
+        }
+    }
+</style>
+
+{% if message %}
+    <div class="alert alert-danger">{{ message }}</div>
+{% endif %}
+
+<div class="container">
+     <!-- Navbar -->
+     <div class="navbar">
+        <ul class="nav-links">
+            <li><a href="http://127.0.0.1:5500/templates/index.html">Home</a></li>
+            <li><a href="http://127.0.0.1:5500/templates/about-us.html">About Us</a></li>
+            <li><a href="http://127.0.0.1:5500/templates/services.html">Services</a></li>
+            <li><a href="http://127.0.0.1:5500/templates/elements.html">Elements</a></li>
+            <li><a href="http://127.0.0.1:5500/templates/contact.html">Contact</a></li>
+        </ul>
+    </div>
+    <!-- Header Section -->
+    <div class="main-header-card">
+        <h2>REVIVE - YOUR HEALTH, YOUR LIFE.</h2>
+        <p>These Machine Learning models and Deep Learning models are trained on large datasets and thousands of images to provide accurate predictions.</p>
+    </div>
+     
+    <!-- Accuracy Section -->
+    <div class="accuracy-section">
+        <h2>Model Accuracies</h2>
+        <ul class="accuracy-list">
+            <li>Diabetes Model <strong>98.25%</strong></li>
+            <li>Breast Cancer Model <strong>98.25%</strong></li>
+            <li>Heart Disease Model <strong>85.25%</strong></li>
+            <li>Kidney Disease Model <strong>99%</strong></li>
+            <li>Liver Disease Model <strong>78%</strong></li>
+            <li>Malaria Model <strong>96%</strong></li>
+            <li>Pneumonia Model <strong>95%</strong></li>
+        </ul>
+    </div>
+
+    <!-- Disease Information Section -->
+    <h3 style="color: var(--primary-emerald); margin-bottom: 20px; border-left: 5px solid var(--accent-neon); padding-left: 15px;">
+        Disease Information
+    </h3>
+
+    <div class="row">
+        <!-- Diabetes -->
+        <div class="col-md-12">
+            <div class="disease-card">
+                <h4>Diabetes</h4>
+                <p>Diabetes is a disease that occurs when your blood glucose, also called blood sugar, is too high. Blood glucose is your main source of energy and comes from the food you eat. Insulin, a hormone made by the pancreas, helps glucose from food get into your cells to be used for energy. Sometimes your body doesn't make enough—or any—insulin or doesn't use insulin well. Glucose then stays in your blood and doesn't reach your cells.</p>
+                <h5>Symptoms</h5>
+                <ul>
+                    <li>Urinating often.</li>
+                    <li>Feeling very thirsty.</li>
+                    <li>Extreme fatigue.</li>
+                    <li>Blurry vision.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Breast Cancer -->
+        <div class="col-md-12">
+            <div class="disease-card">
+                <h4>Breast Cancer</h4>
+                <p>Breast cancer is cancer that forms in the cells of the breasts. After skin cancer, breast cancer is the most common cancer diagnosed in women in the United States. Breast cancer can occur in both men and women, but it's far more common in women.</p>
+                <h5>Symptoms</h5>
+                <ul>
+                    <li>A breast lump or thickening that feels different from the surrounding tissue.</li>
+                    <li>Change in the size, shape or appearance of a breast.</li>
+                    <li>Changes to the skin over the breast, such as dimpling.</li>
+                    <li>Redness or pitting of the skin over your breast, like the skin of an orange.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Kidney Disease -->
+        <div class="col-md-12">
+            <div class="disease-card">
+                <h4>Chronic Kidney Disease</h4>
+                <p>Chronic kidney disease, also called chronic kidney failure, describes the gradual loss of kidney function. Your kidneys filter wastes and excess fluids from your blood, which are then excreted in your urine. When chronic kidney disease reaches an advanced stage, dangerous levels of fluid, electrolytes and wastes can build up in your body.</p>
+                <h5>Symptoms</h5>
+                <ul>
+                    <li>Nausea</li>
+                    <li>Vomiting</li>
+                    <li>Fatigue and weakness</li>
+                    <li>Muscle twitches and cramps</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Liver Disease -->
+        <div class="col-md-12">
+            <div class="disease-card">
+                <h4>Liver Disease</h4>
+                <p>Symptoms of liver disease can vary, but they often include swelling of the abdomen and legs, bruising easily, changes in the color of your stool and urine, and jaundice, or yellowing of the skin and eyes. Sometimes there are no symptoms. Tests such as imaging tests and liver function tests can check for liver damage and help to diagnose liver diseases.</p>
+            </div>
+        </div>
+
+        <!-- Malaria -->
+        <div class="col-md-12">
+            <div class="disease-card">
+                <h4>Malaria</h4>
+                <p>Malaria is a mosquito-borne infectious disease that affects humans and other animals. Malaria causes symptoms that typically include fever, tiredness, vomiting, and headaches. In severe cases it can cause yellow skin, seizures, coma, or death. Symptoms usually begin ten to fifteen days after being bitten by an infected mosquito. If not properly treated, people may have recurrences of the disease months later.</p>
+                <h5>Symptoms</h5>
+                <ul>
+                    <li>Fever. This is the most common symptom.</li>
+                    <li>Chills</li>
+                    <li>Headache</li>
+                    <li>Nausea and vomiting</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Pneumonia -->
+        <div class="col-md-12">
+            <div class="disease-card">
+                <h4>Pneumonia</h4>
+                <p>Pneumonia is an infection that inflames the air sacs in one or both lungs. The air sacs may fill with fluid or pus (purulent material), causing cough with phlegm or pus, fever, chills, and difficulty breathing. A variety of organisms, including bacteria, viruses and fungi, can cause pneumonia.</p>
+                <h5>Symptoms</h5>
+                <ul>
+                    <li>Cough, which may produce greenish, yellow or even bloody mucus.</li>
+                    <li>Fever, sweating and shaking chills.</li>
+                    <li>Shortness of breath.</li>
+                    <li>Rapid, shallow breathing.</li>
+                    
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

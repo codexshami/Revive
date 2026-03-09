@@ -1,0 +1,227 @@
+{% extends 'main.html' %}
+{% block content %}
+<style>
+    /* --- THEME VARIABLES --- */
+    :root {
+        --primary-emerald: #047857;       /* Emerald Green */
+        --secondary-teal: #0d9488;        /* Teal Blue */
+        --accent-neon: #39ff14;           /* Neon Green */
+        --bg-gradient-start: #ecfdf5;     /* Light Emerald */
+        --bg-gradient-end: #f0f9ff;       /* Light Teal */
+        --text-dark: #1f2937;
+        --text-light: #6b7280;
+        --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    }
+
+    /* --- GLOBAL STYLES --- */
+    body {
+        background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: var(--text-dark);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+
+    /* --- CONTAINER STYLES --- */
+    .predictor-container {
+        width: 100%;
+        max-width: 600px;
+        background: white;
+        border-radius: 16px;
+        box-shadow: var(--card-shadow);
+        overflow: hidden;
+        border-top: 5px solid var(--primary-emerald);
+        animation: fadeIn 0.8s ease-out;
+    }
+
+    /* --- HEADER --- */
+    .form-header {
+        background: var(--primary-emerald);
+        color: white;
+        padding: 30px;
+        text-align: center;
+    }
+
+    .form-header h1 {
+        margin: 0;
+        font-size: 2rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+    }
+
+    .form-header p {
+        margin-top: 10px;
+        opacity: 0.9;
+        font-size: 0.95rem;
+    }
+
+    /* --- FORM STYLES --- */
+    .form-body {
+        padding: 30px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+        position: relative;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: var(--text-dark);
+        font-size: 0.9rem;
+    }
+
+    .form-group input {
+        width: 100%;
+        padding: 12px 15px;
+        border: 2px solid #e5e7eb;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        box-sizing: border-box; /* Ensures padding doesn't affect width */
+    }
+
+    .form-group input:focus {
+        outline: none;
+        border-color: var(--secondary-teal);
+        box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.2);
+    }
+
+    .form-group input::placeholder {
+        color: #9ca3af;
+    }
+
+    .form-group small {
+        display: block;
+        margin-top: 5px;
+        color: var(--text-light);
+        font-size: 0.8rem;
+        font-style: italic;
+    }
+
+    /* --- BUTTON STYLES --- */
+    .btn-predict {
+        width: 100%;
+        padding: 15px;
+        background: var(--primary-emerald);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+        box-shadow: 0 4px 6px rgba(4, 120, 87, 0.2);
+    }
+
+    .btn-predict:hover {
+        background: var(--secondary-teal);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(13, 148, 136, 0.3);
+    }
+
+    .btn-predict:active {
+        transform: translateY(0);
+    }
+
+    /* --- ALERT STYLES --- */
+    .alert-danger {
+        background-color: #fee2e2;
+        border: 1px solid #fca5a5;
+        color: #991b1b;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    /* --- ANIMATION --- */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* --- RESPONSIVE --- */
+    @media (max-width: 768px) {
+        .predictor-container {
+            margin: 10px;
+        }
+        .form-header h1 {
+            font-size: 1.5rem;
+        }
+    }
+</style>
+
+{% if message %}
+    <div class="alert alert-danger">{{ message }}</div>
+{% endif %}
+
+<div class="predictor-container">
+    <div class="form-header">
+        <h1>Diabetes Predictor</h1>
+        <p>Enter your health metrics to get an AI-based prediction</p>
+    </div>
+    
+    <div class="form-body">
+        <form class="form-horizontal" action="{{ url_for('predictPage') }}" method="POST">
+            
+            <div class="form-group">
+                <label for="pregnancies">Number of Pregnancies</label>
+                <input type="text" name="pregnancies" id="pregnancies" placeholder="e.g. 0" required>
+                <small>Number of times pregnant</small>
+            </div>
+
+            <div class="form-group">
+                <label for="glucose">Glucose Level (mg/dL)</label>
+                <input type="text" name="glucose" id="glucose" placeholder="e.g. 80" required>
+                <small>Plasma glucose concentration 2 hours in an oral glucose tolerance test</small>
+            </div>
+
+            <div class="form-group">
+                <label for="bloodpressure">Blood Pressure (mmHg)</label>
+                <input type="text" name="bloodpressure" id="bloodpressure" placeholder="e.g. 80" required>
+                <small>Diastolic blood pressure (mm Hg)</small>
+            </div>
+
+            <div class="form-group">
+                <label for="skinthickness">Skin Thickness (mm)</label>
+                <input type="text" name="skinthickness" id="skinthickness" placeholder="e.g. 20" required>
+                <small>Triceps skin fold thickness (mm)</small>
+            </div>
+
+            <div class="form-group">
+                <label for="insulin">Insulin Level (IU/mL)</label>
+                <input type="text" name="insulin" id="insulin" placeholder="e.g. 80" required>
+                <small>2-Hour serum insulin (mu U/ml)</small>
+            </div>
+
+            <div class="form-group">
+                <label for="bmi">Body Mass Index (kg/m²)</label>
+                <input type="text" name="bmi" id="bmi" placeholder="e.g. 23.1" required>
+                <small>Body mass index (weight in kg/(height in m)^2)</small>
+            </div>
+
+            <div class="form-group">
+                <label for="dpf">Diabetes Pedigree Function</label>
+                <input type="text" name="dpf" id="dpf" placeholder="e.g. 0.52" required>
+                <small>Diabetes pedigree function</small>
+            </div>
+
+            <div class="form-group">
+                <label for="age">Age (years)</label>
+                <input type="text" name="age" id="age" placeholder="e.g. 34" required>
+                <small>Age (years)</small>
+            </div>
+
+            <input type="submit" class="btn-predict" value="Predict Risk">
+            
+        </form>
+    </div>
+</div>
+{% endblock %}

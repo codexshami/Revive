@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Revive - Medical ML app | News & articles">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Revive · ML App | News</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📰</text></svg>">
+    <style>
+        /* === INTERNAL CSS — HEALTHCARE THEME (emerald, teal, neon) === */
+        *{margin:0;padding:0;box-sizing:border-box;}
+        body{
+            font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+            background:#f4faf9;color:#194353;line-height:1.5;
+        }
+        /* gradients & overlays */
+        .gradient-background-overlay{
+            background:linear-gradient(125deg,#2C9A6E 0%,#2C7A9A 100%),url('img/bg-img/breadcumb2.jpg')center/cover;
+            background-blend-mode:multiply;
+        }
+        /* header */
+        .header-area{background:#fff;box-shadow:0 12px 30px -10px rgba(44,122,154,0.15);}
+        .top-header-area{
+            background:linear-gradient(90deg,#2C9A6E,#2C7A9A);padding:8px 0;
+            color:#fff;font-size:.9rem;
+        }
+        .top-header-area a{color:#B0FF57;font-weight:600;text-decoration:none;}
+        .top-header-area span{font-weight:700;color:#B0FF57;}
+        .container{max-width:1280px;margin:0 auto;padding:0 20px;width:100%;}
+        .row{display:flex;flex-wrap:wrap;}
+        .main-header-area{padding:6px 0;background:#fff;}
+        .navbar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;}
+        .navbar-brand img{max-height:48px;filter:drop-shadow(0 4px 6px #c0e8da);}
+        .navbar-toggler{
+            background:transparent;border:2px solid #2C9A6E;border-radius:40px;
+            padding:6px 16px;color:#2C9A6E;font-size:2rem;line-height:1;display:none;cursor:pointer;
+        }
+        .navbar-collapse{display:flex;flex-grow:1;}
+        .navbar-nav{display:flex;list-style:none;margin-left:auto;align-items:center;gap:0.2rem;}
+        .nav-link{
+            color:#174450;font-weight:500;padding:10px 20px;border-radius:40px;
+            text-decoration:none;transition:0.2s;
+        }
+        .nav-link:hover,.nav-item.active .nav-link{background:#dcf7ed;color:#2C9A6E;}
+        .dropdown:hover .dropdown-menu{display:block;}
+        .dropdown-menu{
+            display:none;position:absolute;background:#fff;min-width:210px;border-radius:30px;
+            box-shadow:0 20px 30px -8px rgba(44,154,110,0.3);border:1px solid #c2f0dd;padding:10px 0;
+        }
+        .dropdown-item{display:block;padding:8px 25px;color:#2C7A9A;text-decoration:none;}
+        .dropdown-item:hover{background:#e8fff2;color:#2C9A6E;}
+        .medilife-appoint-btn{
+            background:#B0FF57;color:#00382b !important;font-weight:700;padding:10px 28px;
+            border-radius:40px;text-decoration:none;box-shadow:0 8px 16px -6px #2C9A6E;
+            margin-left:20px;transition:0.2s;display:inline-block;
+        }
+        .medilife-appoint-btn span{background:#2C9A6E;color:#fff;border-radius:30px;padding:2px 12px;margin-left:8px;}
+        .medilife-appoint-btn:hover{background:#2C9A6E;color:#fff !important;}
+        /* breadcumb */
+        .breadcumb-area{padding:90px 0;text-align:center;color:#fff;}
+        .breadcumb-title{font-size:4rem;font-weight:700;text-shadow:0 5px 12px #1b4f3a;}
+        .breadcumb-content p{font-size:1.3rem;background:rgba(0,50,40,0.3);backdrop-filter:blur(4px);display:inline-block;padding:10px 30px;border-radius:60px;}
+        /* blog area */
+        .medilife-blog-area{padding:100px 0;background:#fff;}
+        .col-12{flex:0 0 100%;max-width:100%;padding:0 15px;}
+        .col-lg-8{flex:0 0 66.66%;max-width:66.66%;}
+        .col-lg-4{flex:0 0 33.33%;max-width:33.33%;}
+        .single-blog-area{
+            background:#fff;border-radius:40px 20px 40px 20px;padding:25px;
+            box-shadow:0 25px 40px -18px rgba(44,122,154,0.25);border:1px solid #d3f3e6;margin-bottom:50px;
+        }
+        .blog-post-thumbnail{position:relative;margin-bottom:20px;}
+        .blog-post-thumbnail img{width:100%;border-radius:30px 10px 30px 10px;}
+        .post-date{
+            position:absolute;bottom:20px;left:20px;background:#B0FF57;padding:8px 20px;
+            border-radius:40px;font-weight:600;box-shadow:0 5px 12px #1b673b;
+        }
+        .post-date a{color:#002b1e;text-decoration:none;}
+        .post-author img{width:60px;height:60px;border-radius:50%;border:4px solid #B0FF57;margin-right:20px;}
+        .post-content a.headline{font-size:2rem;font-weight:700;color:#2C9A6E;text-decoration:none;border-bottom:4px solid #B0FF57;}
+        .post-meta a{color:#2C7A9A;text-decoration:none;font-weight:500;}
+        .post-content p{margin:20px 0;color:#264f5c;}
+        .single-blog-area img[alt=""]{border-radius:30px;margin:20px 0;}
+        /* comments */
+        .comments-area{background:#f3fdf9;border-radius:40px;padding:40px;margin:40px 0;}
+        .comments-area h5{color:#2C9A6E;font-size:2rem;border-left:8px solid #B0FF57;padding-left:20px;}
+        .single_comment_area{list-style:none;margin-bottom:30px;}
+        .comment-wrapper{display:flex;gap:20px;background:#fff;padding:25px;border-radius:30px;box-shadow:0 8px 18px -8px #c0e0d0;}
+        .comment-author img{width:60px;border-radius:50%;border:3px solid #B0FF57;}
+        .comment-meta a{color:#2C7A9A;text-decoration:none;margin-right:10px;font-weight:500;}
+        .comment-content p{margin-top:12px;color:#2f5e6b;}
+        .children{padding-left:60px;}
+        /* leave comment */
+        .leave-comment-area{background:#fff;border-radius:40px;padding:40px;border:2px solid #dcf7ea;}
+        .form-group input,.form-group textarea{
+            width:100%;padding:16px 22px;border:2px solid #e5f7ef;border-radius:60px;
+            font-size:1rem;transition:0.2s;background:#fafffe;
+        }
+        .form-group input:focus,.form-group textarea:focus{border-color:#2C9A6E;outline:none;box-shadow:0 0 0 4px rgba(44,154,110,0.2);}
+        .medilife-btn{
+            background:#B0FF57;border:none;border-radius:60px;padding:14px 40px;
+            font-weight:700;color:#003d2c;font-size:1.2rem;cursor:pointer;border:2px solid transparent;
+        }
+        .medilife-btn span{background:#2C9A6E;color:#fff;border-radius:50%;width:36px;height:36px;display:inline-block;line-height:36px;margin-left:10px;}
+        .medilife-btn:hover{background:#2C9A6E;color:#fff;border-color:#B0FF57;}
+        /* sidebar */
+        .medilife-blog-sidebar-area{padding-left:25px;}
+        .search-widget-area form{display:flex;border:2px solid #B0FF57;border-radius:60px;overflow:hidden;background:#fff;}
+        .search-widget-area input[type="search"]{flex:1;padding:16px 20px;border:none;outline:none;font-size:1rem;}
+        .search-widget-area input[type="submit"]{background:#2C9A6E;color:#fff;border:none;padding:0 25px;font-weight:700;cursor:pointer;}
+        .medilife-catagories-card{background:#fff;border-radius:40px;padding:30px;box-shadow:0 20px 30px -10px rgba(44,154,110,0.2);}
+        .medilife-catagories-card h5{color:#2C9A6E;font-size:1.8rem;border-bottom:4px solid #B0FF57;display:inline-block;margin-bottom:30px;}
+        .catagories-menu{list-style:none;}
+        .catagories-menu li a{color:#2C7A9A;font-weight:500;text-decoration:none;display:block;padding:12px 0;border-bottom:1px dashed #b0ead9;}
+        .catagories-menu li a:hover{color:#2C9A6E;padding-left:8px;}
+        .latest-news-widget-area{background:#f4fdf9;border-radius:40px;padding:30px;}
+        .widget-single-blog-post{margin-bottom:25px;}
+        .widget-post-thumbnail img{width:80px;height:80px;border-radius:30px 8px 30px 8px;border:3px solid #B0FF57;}
+        .widget-post-content a{color:#2C9A6E;font-weight:600;text-decoration:none;font-size:1.1rem;}
+        .widget-post-content p{color:#4b7f8a;}
+        .medilife-emergency-card{
+            background:linear-gradient(145deg,#2C9A6E,#2C7A9A);padding:45px 25px;border-radius:50px;
+            text-align:center;color:#fff;border:4px solid #B0FF57;margin-top:40px;
+        }
+        .medilife-emergency-card i{font-size:4rem;background:#B0FF57;color:#2C9A6E;width:110px;height:110px;line-height:110px;border-radius:50%;display:inline-block;margin-bottom:20px;}
+        .medilife-emergency-card h2{font-size:2rem;}
+        .medilife-emergency-card h3{font-size:3rem;color:#B0FF57;}
+        /* footer */
+        .footer-area{background:#0f2c35;color:#d4f0e8;}
+        .main-footer-area{background:radial-gradient(circle at 10% 20%,#1d5d5d,#0b303a);padding:70px 0 30px;}
+        .footer-widget-area p{color:#c2e8de;}
+        .footer-logo img{max-width:170px;filter:brightness(0)invert(1);margin-bottom:20px;}
+        .widget-title h6{color:#fff;font-size:1.7rem;border-bottom:4px solid #B0FF57;display:inline-block;padding-bottom:6px;margin-bottom:30px;}
+        .footer-contact-form input,.footer-contact-form textarea,.footer-newsletter-area input{
+            background:transparent;border:none;border-bottom:2px solid #479f9f;padding:14px 0;color:#fff;width:100%;margin-bottom:25px;outline:none;
+        }
+        .footer-contact-form .medilife-btn,.footer-newsletter-area button{
+            background:#B0FF57;border:none;border-radius:50px;padding:12px 30px;font-weight:700;color:#00332a;cursor:pointer;
+        }
+        .bottom-footer-area{background:#06212b;padding:22px 0;text-align:center;}
+        .copywrite-text a{color:#B0FF57;text-decoration:none;}
+        /* preloader */
+        #preloader{position:fixed;inset:0;background:#fff;z-index:9999;display:flex;align-items:center;justify-content:center;}
+        .medilife-load{width:70px;height:70px;border:7px solid #2C9A6E;border-top-color:#B0FF57;border-radius:50%;animation:spin 0.9s infinite linear;}
+        @keyframes spin{to{transform:rotate(360deg);}}
+        /* responsiveness */
+        @media (max-width:991px){
+            .navbar-collapse{display:none;}
+            .navbar-toggler{display:block;}
+            .col-lg-8,.col-lg-4{flex:0 0 100%;max-width:100%;}
+            .medilife-blog-sidebar-area{padding-left:0;margin-top:50px;}
+        }
+    </style>
+</head>
+<body>
+    <!-- Preloader -->
+    <div id="preloader"><div class="medilife-load"></div></div>
+
+    <!-- Header -->
+    <header class="header-area">
+        <div class="top-header-area">
+            <div class="container">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <p>🏥 Welcome to <span>Medifile</span> template</p>
+                    <p>📞 Opening Hours: Mon-Sat 8am-10pm | <span>+12-823-611-8721</span></p>
+                </div>
+            </div>
+        </div>
+        <div class="main-header-area">
+            <div class="container">
+                <nav class="navbar">
+                    <a class="navbar-brand" href="index.html"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 60'%3E%3Crect width='200' height='60' fill='%232C9A6E' rx='25'/%3E%3Ctext x='30' y='42' fill='white' font-size='30' font-weight='bold'%3EREVIVE%3C/text%3E%3C/svg%3E" alt="Revive"></a>
+                    <button class="navbar-toggler">☤</button>
+                    <div class="collapse navbar-collapse" id="medilifeMenu">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#">Pages ▼</a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="index.html">Home</a>
+                                    <a class="dropdown-item" href="about-us.html">About Us</a>
+                                    <a class="dropdown-item" href="services.html">Services</a>
+                                    <a class="dropdown-item" href="blog.html">News</a>
+                                    <a class="dropdown-item" href="single-blog.html">News Details</a>
+                                    <a class="dropdown-item" href="contact.html">Contact</a>
+                                    <a class="dropdown-item" href="elements.html">Elements</a>
+                                    <a class="dropdown-item" href="index-icons.html">All Icons</a>
+                                </div>
+                            </li>
+                            <li class="nav-item"><a class="nav-link" href="about-us.html">About Us</a></li>
+                            <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
+                            <li class="nav-item active"><a class="nav-link" href="blog.html">News</a></li>
+                            <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                        </ul>
+                        <a href="#" class="medilife-appoint-btn">For <span>emergencies</span> Click here</a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Breadcumb -->
+    <section class="breadcumb-area gradient-background-overlay" style="background-image: url('data:image/svg+xml,%3Csvg opacity=\'0.2\'%3E%3Cdefs%3E%3Cpattern id=\'p\' width=\'30\' height=\'30\' patternUnits=\'userSpaceOnUse\'%3E%3Ccircle cx=\'2\' cy=\'2\' r=\'2\' fill=\'%23B0FF57\'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width=\'100%25\' height=\'100%25\' fill=\'url(%23p)\'/%3E%3C/svg%3E');">
+        <div class="container"><div class="breadcumb-content"><h3 class="breadcumb-title">News</h3><p>Lorem ipsum dolor sit amet, consectetuer Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nihil deleniti, voluptate obcaecati commodi est quibusdam facilis error quo magni sed animi? Ratione, illum eligendi! Velit voluptates molestiae laboriosam repellat vel tempore dolores suscipit nulla labore ducimus. Quam asperiores placeat ducimus cum dicta culpa, quaerat eveniet recusandae sapiente illum, impedit blanditiis dolore quos cupiditate aspernatur rerum eos nemo tempore similique voluptatum modi praesentium itaque? Consectetur possimus minima, eligendi eveniet vero ullam, quos facere, distinctio earum rem impedit. At dolore nemo nam perspiciatis obcaecati, facilis voluptatum quae explicabo quam harum accusantium, atque soluta quasi voluptates maxime sed animi ipsum, cupiditate asperiores repellat.</p></div></div>
+    </section>
+
+    <!-- Blog Content -->
+    <section class="medilife-blog-area">
+        <div class="container">
+            <div class="row">
+                <!-- left main -->
+                <div class="col-12 col-lg-8">
+                    <!-- single post -->
+                    <div class="single-blog-area">
+                        <div class="blog-post-thumbnail">
+                            <img src="data:image/svg+xml,%3Csvg width='800' height='400' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='800' height='400' fill='%232C9A6E'/%3E%3Ctext x='250' y='220' fill='%23B0FF57' font-size='60'%3E📰%3C/text%3E%3C/svg%3E" alt="news">
+                            <div class="post-date"><a href="#">Jan 23, 2018</a></div>
+                        </div>
+                        <div class="post-content">
+                            <div class="post-author"><img src="data:image/svg+xml,%3Csvg width='80' height='80'%3E%3Ccircle cx='40' cy='40' r='38' fill='%232C7A9A' stroke='%23B0FF57' stroke-width='3'/%3E%3Ctext x='20' y='55' fill='white' font-size='40'%3E👩%3C/text%3E%3C/svg%3E" alt=""></div>
+                            <a href="#" class="headline mb-0">Free dental care for our clients</a>
+                            <div class="post-meta"><a href="#" class="post-author-name">by Dr. Cristinne Smith</a> | <a href="#" class="post-catagory">Dental</a></div>
+                            <p>Dolor sit amet, consecte tuer adipiscing elit, sed diam nonummy nibh euismod tincidunt. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce nec gravida tortor, non vehicula mauris. Cras aliquam lobortis nulla vel fermentum. Phasellus iaculis id nunc at egestas. Etiam nec venenatis tortor, quis fermentum diam. Pellentesque gravida ante nisi, vel posuere leo suscipit et. Proin tortor magna, pharetra vel faucibus in, interdum vitae est.</p>
+                        </div>
+                        <img src="data:image/svg+xml,%3Csvg width='800' height='200'%3E%3Crect width='800' height='200' fill='%232C7A9A'/%3E%3Ctext x='280' y='120' fill='white' font-size='40'%3E🦷%3C/text%3E%3C/svg%3E" alt="">
+                        <div class="post-content"><p>Phasellus iaculis id nunc at egestas. Etiam nec venenatis tortor, quis fermentum diam. Pellentesque gravida ante nisi, vel posuere leo suscipit et. Proin tortor magna, pharetra vel faucibus in, interdum vitae est. Vivamus aliquet dapibus lacus, ut viverra diam dapibus vel.</p></div>
+                    </div>
+
+                    <!-- comments -->
+                    <div class="comments-area">
+                        <h5>Comments</h5>
+                        <ol style="list-style:none;">
+                            <li class="single_comment_area">
+                                <div class="comment-wrapper">
+                                    <div class="comment-author"><img src="data:image/svg+xml,%3Csvg width='60' height='60'%3E%3Ccircle cx='30' cy='30' r='27' fill='%232C9A6E'/%3E%3Ctext x='15' y='40' fill='white' font-size='30'%3E👩%3C/text%3E%3C/svg%3E" alt=""></div>
+                                    <div class="comment-content">
+                                        <div class="comment-meta"><a href="#" class="comment-author-name">Maria Williams</a> | <a href="#" class="comment-date">Jan 29, 2018</a> | <a href="#" class="comment-reply">Reply</a></div>
+                                        <p>Consectetur adipiscing elit. Praesent vel tortor facilisis, volutpat nulla placerat, tincidunt mi.</p>
+                                    </div>
+                                </div>
+                                <ol class="children">
+                                    <li class="single_comment_area">
+                                        <div class="comment-wrapper">
+                                            <div class="comment-author"><img src="data:image/svg+xml,%3Csvg width='60' height='60'%3E%3Ccircle cx='30' cy='30' r='27' fill='%232C7A9A'/%3E%3Ctext x='15' y='40' fill='white' font-size='30'%3E👨%3C/text%3E%3C/svg%3E" alt=""></div>
+                                            <div class="comment-content"><div class="comment-meta"><a href="#">John Doe</a> | <a href="#">Jan 30, 2018</a> | <a href="#">Reply</a></div><p>Great article! Very informative.</p></div>
+                                        </div>
+                                    </li>
+                                </ol>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <!-- leave comment -->
+                    <div class="leave-comment-area">
+                        <div class="comment-form">
+                            <h5>Leave a reply</h5>
+                            <form action="#">
+                                <div class="form-group"><input type="text" placeholder="Name"></div>
+                                <div class="form-group"><input type="email" placeholder="Email"></div>
+                                <div class="form-group"><textarea cols="30" rows="6" placeholder="Message"></textarea></div>
+                                <button type="submit" class="medilife-btn">Post Comment <span>+</span></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- sidebar right -->
+                <div class="col-12 col-lg-4">
+                    <div class="medilife-blog-sidebar-area">
+                        <div class="search-widget-area mb-50">
+                            <form><input type="search" placeholder="Type Any Keywords"><input type="submit" value="Search"></form>
+                        </div>
+                        <div class="medilife-catagories-card mb-50">
+                            <h5>Categories</h5>
+                            <ul class="catagories-menu"><li><a href="#">Radiology</a></li><li><a href="#">Cardiology</a></li><li><a href="#">Gastroenterology</a></li><li><a href="#">Neurology</a></li><li><a href="#">General surgery</a></li></ul>
+                        </div>
+                        <div class="latest-news-widget-area mb-50">
+                            <h5>Latest News</h5>
+                            <div class="widget-blog-post">
+                                <div class="widget-single-blog-post d-flex align-items-center"><div class="widget-post-thumbnail pr-3"><img src="data:image/svg+xml,%3Csvg width='80' height='80'%3E%3Crect width='80' height='80' fill='%232C9A6E'/%3E%3Ctext x='15' y='50' fill='%23B0FF57' font-size='40'%3E🔬%3C/text%3E%3C/svg%3E" alt=""></div><div class="widget-post-content"><a href="#">A big discovery for medicine</a><p>Dec 02, 2017</p></div></div>
+                                <div class="widget-single-blog-post d-flex align-items-center"><div class="widget-post-thumbnail pr-3"><img src="data:image/svg+xml,%3Csvg width='80' height='80'%3E%3Crect width='80' height='80' fill='%232C7A9A'/%3E%3Ctext x='15' y='50' fill='%23B0FF57' font-size='40'%3E🦷%3C/text%3E%3C/svg%3E" alt=""></div><div class="widget-post-content"><a href="#">Dentistry for everybody</a><p>Dec 02, 2017</p></div></div>
+                                <div class="widget-single-blog-post d-flex align-items-center"><div class="widget-post-thumbnail pr-3"><img src="data:image/svg+xml,%3Csvg width='80' height='80'%3E%3Crect width='80' height='80' fill='%232C9A6E'/%3E%3Ctext x='15' y='50' fill='%23B0FF57' font-size='40'%3E💊%3C/text%3E%3C/svg%3E" alt=""></div><div class="widget-post-content"><a href="#">When it’s time to take pills</a><p>Dec 02, 2017</p></div></div>
+                            </div>
+                        </div>
+                        <div class="medilife-emergency-card" style="background-image:linear-gradient(145deg,#2C9A6E,#2C7A9A);"><i>🚑</i><h2>For Emergency calls</h2><h3>+12-823-611-8721</h3></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer-area">
+        <div class="main-footer-area"><div class="container" style="max-width:1300px;"><div class="row">
+            <div class="col-12 col-sm-6 col-xl-3"><div class="footer-widget-area"><div class="footer-logo"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 60'%3E%3Crect width='200' height='60' fill='%232C9A6E' rx='25'/%3E%3Ctext x='30' y='42' fill='white' font-size='30'%3EREVIVE%3C/text%3E%3C/svg%3E" alt=""></div><p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod.</p></div></div>
+            <div class="col-12 col-sm-6 col-xl-3"><div class="footer-widget-area"><div class="widget-title"><h6>Latest News</h6></div><div class="widget-blog-post"><div class="widget-single-blog-post d-flex"><div class="widget-post-thumbnail"><img src="data:image/svg+xml,%3Csvg width='60' height='60'%3E%3Crect width='60' height='60' fill='%232C9A6E'/%3E%3C/svg%3E" alt=""></div><div class="widget-post-content"><a href="#">Better Health Care</a><p>Dec 02, 2017</p></div></div><div class="widget-single-blog-post d-flex"><div class="widget-post-thumbnail"><img src="data:image/svg+xml,%3Csvg width='60' height='60'%3E%3Crect width='60' height='60' fill='%232C7A9A'/%3E%3C/svg%3E" alt=""></div><div class="widget-post-content"><a href="#">A new drug is tested</a><p>Dec 02, 2017</p></div></div></div></div></div>
+            <div class="col-12 col-sm-6 col-xl-3"><div class="footer-widget-area"><div class="widget-title"><h6>Contact Form</h6></div><div class="footer-contact-form"><form><input placeholder="Name"><input placeholder="Email"><textarea placeholder="Message"></textarea><button type="submit" class="medilife-btn">Contact Us <span>+</span></button></form></div></div></div>
+            <div class="col-12 col-sm-6 col-xl-3"><div class="footer-widget-area"><div class="widget-title"><h6>News Letter</h6></div><div class="footer-newsletter-area"><form><input placeholder="Your Email Here"><button type="submit">Subscribe</button></form><p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</p></div></div></div>
+        </div></div></div>
+        <div class="bottom-footer-area"><div class="container"><div class="copywrite-text"><p>Copyright ©<script>document.write(new Date().getFullYear());</script> All rights reserved | made with <i style="color:#B0FF57;">❤️</i> by <a href="#">Colorlib</a></p></div></div></div>
+    </footer>
+
+    <script>
+        window.addEventListener('load',()=>document.getElementById('preloader').style.display='none');
+        document.querySelector('.navbar-toggler')?.addEventListener('click',function(){
+            let m=document.getElementById('medilifeMenu');
+            m.style.display=m.style.display==='block'?'none':'block';
+        });
+    </script>
+</body>
+</html>

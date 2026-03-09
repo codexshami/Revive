@@ -1,0 +1,273 @@
+{% extends 'main.html' %}
+{% block content %}
+<style>
+    /* --- THEME VARIABLES --- */
+    :root {
+        --primary-emerald: #047857;       /* Emerald Green */
+        --secondary-teal: #0d9488;        /* Teal Blue */
+        --accent-neon: #39ff14;           /* Neon Green */
+        --bg-gradient-start: #ecfdf5;     /* Light Emerald */
+        --bg-gradient-end: #f0f9ff;       /* Light Teal */
+        --text-dark: #1f2937;
+        --text-light: #6b7280;
+        --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    }
+
+    /* --- GLOBAL STYLES --- */
+    body {
+        background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: var(--text-dark);
+        min-height: 100vh;
+        padding: 20px;
+    }
+
+    /* --- CONTAINER STYLES --- */
+    .predictor-container {
+        width: 100%;
+        max-width: 1000px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 16px;
+        box-shadow: var(--card-shadow);
+        overflow: hidden;
+        border-top: 5px solid var(--primary-emerald);
+        animation: fadeIn 0.8s ease-out;
+    }
+
+    /* --- HEADER --- */
+    .form-header {
+        background: var(--primary-emerald);
+        color: white;
+        padding: 30px;
+        text-align: center;
+    }
+
+    .form-header h1 {
+        margin: 0;
+        font-size: 2rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+    }
+
+    .form-header p {
+        margin-top: 10px;
+        opacity: 0.9;
+        font-size: 0.95rem;
+    }
+
+    /* --- FORM STYLES --- */
+    .form-body {
+        padding: 30px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+        position: relative;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 6px;
+        font-weight: 600;
+        color: var(--text-dark);
+        font-size: 0.85rem;
+    }
+
+    .form-group input {
+        width: 100%;
+        padding: 12px 15px;
+        border: 2px solid #e5e7eb;
+        border-radius: 8px;
+        font-size: 0.95rem;
+        transition: all 0.3s ease;
+        box-sizing: border-box;
+    }
+
+    .form-group input:focus {
+        outline: none;
+        border-color: var(--secondary-teal);
+        box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.2);
+    }
+
+    .form-group input::placeholder {
+        color: #9ca3af;
+    }
+
+    .form-group small {
+        display: block;
+        margin-top: 5px;
+        color: var(--text-light);
+        font-size: 0.75rem;
+        font-style: italic;
+    }
+
+    /* --- BUTTON STYLES --- */
+    .btn-predict {
+        width: 100%;
+        padding: 15px;
+        background: var(--primary-emerald);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 20px;
+        box-shadow: 0 4px 6px rgba(4, 120, 87, 0.2);
+    }
+
+    .btn-predict:hover {
+        background: var(--secondary-teal);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(13, 148, 136, 0.3);
+    }
+
+    .btn-predict:active {
+        transform: translateY(0);
+    }
+
+    /* --- SECTION HEADERS --- */
+    .section-header {
+        background: var(--secondary-teal);
+        color: white;
+        padding: 10px 15px;
+        border-radius: 8px;
+        margin: 20px 0 15px 0;
+        font-size: 0.9rem;
+        font-weight: 600;
+    }
+
+    /* --- ANIMATION --- */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* --- RESPONSIVE --- */
+    @media (max-width: 768px) {
+        .predictor-container {
+            margin: 10px;
+        }
+        .form-header h1 {
+            font-size: 1.5rem;
+        }
+        .form-group input {
+            font-size: 0.9rem;
+            padding: 10px 12px;
+        }
+    }
+</style>
+
+<div class="predictor-container">
+    <div class="form-header">
+        <h1>🩺 Liver Disease Predictor</h1>
+        <p>Enter liver function test data for AI-based prediction</p>
+    </div>
+    
+    <div class="form-body">
+        <form class="form-horizontal" action="{{ url_for('predictPage') }}" method="POST">
+            
+            <!-- BASIC INFO -->
+            <div class="section-header">Basic Information</div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="Age">Age</label>
+                        <input type="text" name="Age" id="Age" placeholder="e.g. 25-70" required>
+                        <small>Patient age in years</small>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="Gender_Male">Gender</label>
+                        <input type="text" name="Gender_Male" id="Gender_Male" placeholder="1 = Male, 0 = Female" required>
+                        <small>Male: 1, Female: 0</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BILIRUBIN LEVELS -->
+            <div class="section-header">Bilirubin Levels</div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="Total_Bilirubin">Total Bilirubin</label>
+                        <input type="text" name="Total_Bilirubin" id="Total_Bilirubin" placeholder="e.g. 0.1-1.2" required>
+                        <small>Total bilirubin in mg/dL</small>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="Direct_Bilirubin">Direct Bilirubin</label>
+                        <input type="text" name="Direct_Bilirubin" id="Direct_Bilirubin" placeholder="e.g. 0.1-0.3" required>
+                        <small>Direct bilirubin in mg/dL</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ENZYME LEVELS -->
+            <div class="section-header">Enzyme Levels</div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="Alkaline_Phosphotase">Alkaline Phosphatase</label>
+                        <input type="text" name="Alkaline_Phosphotase" id="Alkaline_Phosphotase" placeholder="e.g. 44-147" required>
+                        <small>Alkaline phosphatase in U/L</small>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="Alamine_Aminotransferase">ALT (Alanine Aminotransferase)</label>
+                        <input type="text" name="Alamine_Aminotransferase" id="Alamine_Aminotransferase" placeholder="e.g. 7-56" required>
+                        <small>ALT in U/L</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="Aspartate_Aminotransferase">AST (Aspartate Aminotransferase)</label>
+                        <input type="text" name="Aspartate_Aminotransferase" id="Aspartate_Aminotransferase" placeholder="e.g. 10-40" required>
+                        <small>AST in U/L</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PROTEIN LEVELS -->
+            <div class="section-header">Protein Levels</div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="Total_Protiens">Total Proteins</label>
+                        <input type="text" name="Total_Protiens" id="Total_Protiens" placeholder="e.g. 6.0-8.3" required>
+                        <small>Total proteins in g/dL</small>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="Albumin">Albumin</label>
+                        <input type="text" name="Albumin" id="Albumin" placeholder="e.g. 2.3-5.2" required>
+                        <small>Albumin in g/dL</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="Albumin_and_Globulin_Ratio">A/G Ratio</label>
+                        <input type="text" name="Albumin_and_Globulin_Ratio" id="Albumin_and_Globulin_Ratio" placeholder="e.g. 0.8-2.5" required>
+                        <small>Albumin and Globulin Ratio</small>
+                    </div>
+                </div>
+            </div>
+
+            <input type="submit" class="btn-predict" value="Predict Risk">
+            
+        </form>
+    </div>
+</div>
+{% endblock %}

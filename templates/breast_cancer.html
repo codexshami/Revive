@@ -1,0 +1,373 @@
+{% extends 'main.html' %}
+{% block content %}
+<style>
+    /* --- THEME VARIABLES --- */
+    :root {
+        --primary-emerald: #047857;       /* Emerald Green */
+        --secondary-teal: #0d9488;        /* Teal Blue */
+        --accent-neon: #39ff14;           /* Neon Green */
+        --bg-gradient-start: #ecfdf5;     /* Light Emerald */
+        --bg-gradient-end: #f0f9ff;       /* Light Teal */
+        --text-dark: #1f2937;
+        --text-light: #6b7280;
+        --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    }
+
+    /* --- GLOBAL STYLES --- */
+    body {
+        background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: var(--text-dark);
+        min-height: 100vh;
+        padding: 20px;
+    }
+
+    /* --- CONTAINER STYLES --- */
+    .predictor-container {
+        width: 100%;
+        max-width: 1000px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 16px;
+        box-shadow: var(--card-shadow);
+        overflow: hidden;
+        border-top: 5px solid var(--primary-emerald);
+        animation: fadeIn 0.8s ease-out;
+    }
+
+    /* --- HEADER --- */
+    .form-header {
+        background: var(--primary-emerald);
+        color: white;
+        padding: 30px;
+        text-align: center;
+    }
+
+    .form-header h1 {
+        margin: 0;
+        font-size: 2rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+    }
+
+    .form-header p {
+        margin-top: 10px;
+        opacity: 0.9;
+        font-size: 0.95rem;
+    }
+
+    /* --- FORM STYLES --- */
+    .form-body {
+        padding: 30px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+        position: relative;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 6px;
+        font-weight: 600;
+        color: var(--text-dark);
+        font-size: 0.85rem;
+    }
+
+    .form-group input {
+        width: 100%;
+        padding: 12px 15px;
+        border: 2px solid #e5e7eb;
+        border-radius: 8px;
+        font-size: 0.95rem;
+        transition: all 0.3s ease;
+        box-sizing: border-box;
+    }
+
+    .form-group input:focus {
+        outline: none;
+        border-color: var(--secondary-teal);
+        box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.2);
+    }
+
+    .form-group input::placeholder {
+        color: #9ca3af;
+    }
+
+    .form-group small {
+        display: block;
+        margin-top: 5px;
+        color: var(--text-light);
+        font-size: 0.75rem;
+        font-style: italic;
+    }
+
+    /* --- BUTTON STYLES --- */
+    .btn-predict {
+        width: 100%;
+        padding: 15px;
+        background: var(--primary-emerald);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 20px;
+        box-shadow: 0 4px 6px rgba(4, 120, 87, 0.2);
+    }
+
+    .btn-predict:hover {
+        background: var(--secondary-teal);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(13, 148, 136, 0.3);
+    }
+
+    .btn-predict:active {
+        transform: translateY(0);
+    }
+
+    /* --- SECTION HEADERS --- */
+    .section-header {
+        background: var(--secondary-teal);
+        color: white;
+        padding: 10px 15px;
+        border-radius: 8px;
+        margin: 20px 0 15px 0;
+        font-size: 0.9rem;
+        font-weight: 600;
+    }
+
+    /* --- ANIMATION --- */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* --- RESPONSIVE --- */
+    @media (max-width: 768px) {
+        .predictor-container {
+            margin: 10px;
+        }
+        .form-header h1 {
+            font-size: 1.5rem;
+        }
+        .form-group input {
+            font-size: 0.9rem;
+            padding: 10px 12px;
+        }
+    }
+</style>
+
+<div class="predictor-container">
+    <div class="form-header">
+        <h1>🩺 Breast Cancer Predictor</h1>
+        <p>Enter tumor measurement data for AI-based prediction</p>
+    </div>
+    
+    <div class="form-body">
+        <form class="form-horizontal" action="{{ url_for('predictPage') }}" method="POST">
+            
+            <!-- MEAN FEATURES -->
+            <div class="section-header">Mean Features</div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="radius_mean">Radius Mean</label>
+                        <input type="text" name="radius_mean" id="radius_mean" placeholder="e.g. 10.0" required>
+                        <small>Mean of distances from center to points on perimeter</small>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="texture_mean">Texture Mean</label>
+                        <input type="text" name="texture_mean" id="texture_mean" placeholder="e.g. 15.0" required>
+                        <small>Standard deviation of gray-scale values</small>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="perimeter_mean">Perimeter Mean</label>
+                        <input type="text" name="perimeter_mean" id="perimeter_mean" placeholder="e.g. 50.0" required>
+                        <small>Mean size of the core tumor</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="area_mean">Area Mean</label>
+                        <input type="text" name="area_mean" id="area_mean" placeholder="e.g. 200.0" required>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="smoothness_mean">Smoothness Mean</label>
+                        <input type="text" name="smoothness_mean" id="smoothness_mean" placeholder="e.g. 0.1" required>
+                        <small>Mean of local variation in radius lengths</small>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="compactness_mean">Compactness Mean</label>
+                        <input type="text" name="compactness_mean" id="compactness_mean" placeholder="e.g. 0.2" required>
+                        <small>Mean of perimeter² / area - 1.0</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="concavity_mean">Concavity Mean</label>
+                        <input type="text" name="concavity_mean" id="concavity_mean" placeholder="e.g. 0.1" required>
+                        <small>Mean of severity of concave portions of contour</small>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="concave_points_mean">Concave Points Mean</label>
+                        <input type="text" name="concave_points_mean" id="concave_points_mean" placeholder="e.g. 0.1" required>
+                        <small>Mean for number of concave portions of contour</small>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="symmetry_mean">Symmetry Mean</label>
+                        <input type="text" name="symmetry_mean" id="symmetry_mean" placeholder="e.g. 0.1" required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SE FEATURES -->
+            <div class="section-header">Standard Error Features</div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="radius_se">Radius SE</label>
+                        <input type="text" name="radius_se" id="radius_se" placeholder="e.g. 0.5" required>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="perimeter_se">Perimeter SE</label>
+                        <input type="text" name="perimeter_se" id="perimeter_se" placeholder="e.g. 1.0" required>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="area_se">Area SE</label>
+                        <input type="text" name="area_se" id="area_se" placeholder="e.g. 5.0" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="compactness_se">Compactness SE</label>
+                        <input type="text" name="compactness_se" id="compactness_se" placeholder="e.g. 0.05" required>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="concavity_se">Concavity SE</label>
+                        <input type="text" name="concavity_se" id="concavity_se" placeholder="e.g. 0.05" required>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="concave_points_se">Concave Points SE</label>
+                        <input type="text" name="concave_points_se" id="concave_points_se" placeholder="e.g. 0.05" required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- WORST FEATURES -->
+            <div class="section-header">Worst Features</div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="fractal_dimension_se">Fractal Dimension SE</label>
+                        <input type="text" name="fractal_dimension_se" id="fractal_dimension_se" placeholder="e.g. 0.02" required>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="radius_worst">Radius Worst</label>
+                        <input type="text" name="radius_worst" id="radius_worst" placeholder="e.g. 15.0" required>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="texture_worst">Texture Worst</label>
+                        <input type="text" name="texture_worst" id="texture_worst" placeholder="e.g. 20.0" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="perimeter_worst">Perimeter Worst</label>
+                        <input type="text" name="perimeter_worst" id="perimeter_worst" placeholder="e.g. 80.0" required>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="area_worst">Area Worst</label>
+                        <input type="text" name="area_worst" id="area_worst" placeholder="e.g. 400.0" required>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="smoothness_worst">Smoothness Worst</label>
+                        <input type="text" name="smoothness_worst" id="smoothness_worst" placeholder="e.g. 0.15" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="compactness_worst">Compactness Worst</label>
+                        <input type="text" name="compactness_worst" id="compactness_worst" placeholder="e.g. 0.25" required>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="concavity_worst">Concavity Worst</label>
+                        <input type="text" name="concavity_worst" id="concavity_worst" placeholder="e.g. 0.2" required>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="concave_points_worst">Concave Points Worst</label>
+                        <input type="text" name="concave_points_worst" id="concave_points_worst" placeholder="e.g. 0.2" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="symmetry_worst">Symmetry Worst</label>
+                        <input type="text" name="symmetry_worst" id="symmetry_worst" placeholder="e.g. 0.2" required>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="fractal_dimension_worst">Fractal Dimension Worst</label>
+                        <input type="text" name="fractal_dimension_worst" id="fractal_dimension_worst" placeholder="e.g. 0.03" required>
+                    </div>
+                </div>
+            </div>
+
+            <input type="submit" class="btn-predict" value="Predict Risk">
+            
+        </form>
+    </div>
+</div>
+{% endblock %}

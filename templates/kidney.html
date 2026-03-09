@@ -1,0 +1,329 @@
+{% extends 'main.html' %}
+{% block content %}
+<style>
+    /* --- THEME VARIABLES --- */
+    :root {
+        --primary-emerald: #047857;       /* Emerald Green */
+        --secondary-teal: #0d9488;        /* Teal Blue */
+        --accent-neon: #39ff14;           /* Neon Green */
+        --bg-gradient-start: #ecfdf5;     /* Light Emerald */
+        --bg-gradient-end: #f0f9ff;       /* Light Teal */
+        --text-dark: #1f2937;
+        --text-light: #6b7280;
+        --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    }
+
+    /* --- GLOBAL STYLES --- */
+    body {
+        background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: var(--text-dark);
+        min-height: 100vh;
+        padding: 20px;
+    }
+
+    /* --- CONTAINER STYLES --- */
+    .predictor-container {
+        width: 100%;
+        max-width: 1000px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 16px;
+        box-shadow: var(--card-shadow);
+        overflow: hidden;
+        border-top: 5px solid var(--primary-emerald);
+        animation: fadeIn 0.8s ease-out;
+    }
+
+    /* --- HEADER --- */
+    .form-header {
+        background: var(--primary-emerald);
+        color: white;
+        padding: 30px;
+        text-align: center;
+    }
+
+    .form-header h1 {
+        margin: 0;
+        font-size: 2rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+    }
+
+    .form-header p {
+        margin-top: 10px;
+        opacity: 0.9;
+        font-size: 0.95rem;
+    }
+
+    /* --- FORM STYLES --- */
+    .form-body {
+        padding: 30px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+        position: relative;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 6px;
+        font-weight: 600;
+        color: var(--text-dark);
+        font-size: 0.85rem;
+    }
+
+    .form-group input {
+        width: 100%;
+        padding: 12px 15px;
+        border: 2px solid #e5e7eb;
+        border-radius: 8px;
+        font-size: 0.95rem;
+        transition: all 0.3s ease;
+        box-sizing: border-box;
+    }
+
+    .form-group input:focus {
+        outline: none;
+        border-color: var(--secondary-teal);
+        box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.2);
+    }
+
+    .form-group input::placeholder {
+        color: #9ca3af;
+    }
+
+    .form-group small {
+        display: block;
+        margin-top: 5px;
+        color: var(--text-light);
+        font-size: 0.75rem;
+        font-style: italic;
+    }
+
+    /* --- BUTTON STYLES --- */
+    .btn-predict {
+        width: 100%;
+        padding: 15px;
+        background: var(--primary-emerald);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 20px;
+        box-shadow: 0 4px 6px rgba(4, 120, 87, 0.2);
+    }
+
+    .btn-predict:hover {
+        background: var(--secondary-teal);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(13, 148, 136, 0.3);
+    }
+
+    .btn-predict:active {
+        transform: translateY(0);
+    }
+
+    /* --- SECTION HEADERS --- */
+    .section-header {
+        background: var(--secondary-teal);
+        color: white;
+        padding: 10px 15px;
+        border-radius: 8px;
+        margin: 20px 0 15px 0;
+        font-size: 0.9rem;
+        font-weight: 600;
+    }
+
+    /* --- ANIMATION --- */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* --- RESPONSIVE --- */
+    @media (max-width: 768px) {
+        .predictor-container {
+            margin: 10px;
+        }
+        .form-header h1 {
+            font-size: 1.5rem;
+        }
+        .form-group input {
+            font-size: 0.9rem;
+            padding: 10px 12px;
+        }
+    }
+</style>
+
+<div class="predictor-container">
+    <div class="form-header">
+        <h1>🩺 Kidney Disease Predictor</h1>
+        <p>Enter patient health metrics for AI-based prediction</p>
+    </div>
+    
+    <div class="form-body">
+        <form class="form-horizontal" action="{{ url_for('predictPage') }}" method="POST">
+            
+            <!-- BASIC INFO -->
+            <div class="section-header">Basic Information</div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="age">Age</label>
+                        <input type="text" name="age" id="age" placeholder="e.g. 29-77" required>
+                        <small>Age in years (numerical)</small>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="bp">Blood Pressure</label>
+                        <input type="text" name="bp" id="bp" placeholder="e.g. 120" required>
+                        <small>Blood Pressure in mm/Hg (numerical)</small>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="al">Albumin</label>
+                        <input type="text" name="al" id="al" placeholder="e.g. 0-5" required>
+                        <small>Albumin level (0,1,2,3,4,5)</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- URINE ANALYSIS -->
+            <div class="section-header">Urine Analysis</div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="su">Sugar</label>
+                        <input type="text" name="su" id="su" placeholder="e.g. 0-5" required>
+                        <small>Sugar level (0,1,2,3,4,5)</small>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="rbc">Red Blood Cells</label>
+                        <input type="text" name="rbc" id="rbc" placeholder="normal or abnormal" required>
+                        <small>Red Blood Cells (normal, abnormal)</small>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="pc">Pus Cells</label>
+                        <input type="text" name="pc" id="pc" placeholder="normal or abnormal" required>
+                        <small>Pus Cells (normal, abnormal)</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="pcc">Pus Cell Clumps</label>
+                        <input type="text" name="pcc" id="pcc" placeholder="present or notpresent" required>
+                        <small>Pus Cell Clumps (present, notpresent)</small>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="ba">Bacteria</label>
+                        <input type="text" name="ba" id="ba" placeholder="present or notpresent" required>
+                        <small>Bacteria (present, notpresent)</small>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="bgr">Blood Glucose Random</label>
+                        <input type="text" name="bgr" id="bgr" placeholder="e.g. 100" required>
+                        <small>Blood Glucose Random in mg/dl (numerical)</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BLOOD TESTS -->
+            <div class="section-header">Blood Tests</div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="bu">Blood Urea</label>
+                        <input type="text" name="bu" id="bu" placeholder="e.g. 20" required>
+                        <small>Blood Urea in mg/dl (numerical)</small>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="sc">Serum Creatinine</label>
+                        <input type="text" name="sc" id="sc" placeholder="e.g. 1.0" required>
+                        <small>Serum Creatinine in mg/dl (numerical)</small>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="pot">Potassium</label>
+                        <input type="text" name="pot" id="pot" placeholder="e.g. 4.0" required>
+                        <small>Potassium in mEq/L (numerical)</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MEDICAL HISTORY -->
+            <div class="section-header">Medical History</div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="wc">White Blood Cell Count</label>
+                        <input type="text" name="wc" id="wc" placeholder="e.g. 7000" required>
+                        <small>White Blood Cell Count in cells/cumm (numerical)</small>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="htn">Hypertension</label>
+                        <input type="text" name="htn" id="htn" placeholder="yes or no" required>
+                        <small>Hypertension (yes, no)</small>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="dm">Diabetes Mellitus</label>
+                        <input type="text" name="dm" id="dm" placeholder="yes or no" required>
+                        <small>Diabetes Mellitus (yes, no)</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="cad">Coronary Artery Disease</label>
+                        <input type="text" name="cad" id="cad" placeholder="yes or no" required>
+                        <small>Coronary Artery Disease (yes, no)</small>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="pe">Pedal Edema</label>
+                        <input type="text" name="pe" id="pe" placeholder="yes or no" required>
+                        <small>Pedal Edema (yes, no)</small>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="ane">Anemia</label>
+                        <input type="text" name="ane" id="ane" placeholder="yes or no" required>
+                        <small>Anemia (yes, no)</small>
+                    </div>
+                </div>
+            </div>
+
+            <input type="submit" class="btn-predict" value="Predict Risk">
+            
+        </form>
+    </div>
+</div>
+{% endblock %}

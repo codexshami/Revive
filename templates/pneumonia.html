@@ -1,0 +1,238 @@
+{% extends 'main.html' %}
+{% block content %}
+<style>
+    /* --- THEME VARIABLES --- */
+    :root {
+        --primary-emerald: #047857;       /* Emerald Green */
+        --secondary-teal: #0d9488;        /* Teal Blue */
+        --accent-neon: #39ff14;           /* Neon Green */
+        --bg-gradient-start: #ecfdf5;     /* Light Emerald */
+        --bg-gradient-end: #f0f9ff;       /* Light Teal */
+        --text-dark: #1f2937;
+        --text-light: #6b7280;
+        --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    }
+
+    /* --- GLOBAL STYLES --- */
+    body {
+        background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: var(--text-dark);
+        min-height: 100vh;
+        padding: 20px;
+    }
+
+    /* --- CONTAINER STYLES --- */
+    .predictor-container {
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 16px;
+        box-shadow: var(--card-shadow);
+        overflow: hidden;
+        border-top: 5px solid var(--primary-emerald);
+        animation: fadeIn 0.8s ease-out;
+    }
+
+    /* --- HEADER --- */
+    .form-header {
+        background: var(--primary-emerald);
+        color: white;
+        padding: 30px;
+        text-align: center;
+    }
+
+    .form-header h1 {
+        margin: 0;
+        font-size: 2rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+    }
+
+    .form-header p {
+        margin-top: 10px;
+        opacity: 0.9;
+        font-size: 0.95rem;
+    }
+
+    /* --- FORM STYLES --- */
+    .form-body {
+        padding: 30px;
+    }
+
+    .upload-section {
+        text-align: center;
+        margin: 30px 0;
+    }
+
+    .upload-label {
+        display: inline-block;
+        padding: 15px 30px;
+        background: var(--secondary-teal);
+        color: white;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        border: 2px dashed var(--primary-emerald);
+    }
+
+    .upload-label:hover {
+        background: var(--primary-emerald);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(4, 120, 87, 0.3);
+    }
+
+    .upload-label input[type="file"] {
+        display: none;
+    }
+
+    .upload-icon {
+        font-size: 2rem;
+        margin-bottom: 10px;
+        display: block;
+    }
+
+    /* --- IMAGE PREVIEW --- */
+    .image-preview {
+        margin-top: 20px;
+        padding: 20px;
+        border: 2px dashed #e5e7eb;
+        border-radius: 12px;
+        background: #f9fafb;
+        min-height: 300px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+    }
+
+    .image-preview img {
+        max-width: 100%;
+        max-height: 400px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        display: none;
+    }
+
+    .image-preview img[src] {
+        display: block;
+    }
+
+    .image-preview .placeholder {
+        color: var(--text-light);
+        font-size: 1rem;
+    }
+
+    /* --- BUTTON STYLES --- */
+    .btn-predict {
+        width: 100%;
+        padding: 15px;
+        background: var(--primary-emerald);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 20px;
+        box-shadow: 0 4px 6px rgba(4, 120, 87, 0.2);
+    }
+
+    .btn-predict:hover {
+        background: var(--secondary-teal);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(13, 148, 136, 0.3);
+    }
+
+    .btn-predict:active {
+        transform: translateY(0);
+    }
+
+    /* --- ALERT STYLES --- */
+    .alert-danger {
+        background-color: #fee2e2;
+        border: 1px solid #fca5a5;
+        color: #991b1b;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    /* --- ANIMATION --- */
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* --- RESPONSIVE --- */
+    @media (max-width: 768px) {
+        .predictor-container {
+            margin: 10px;
+        }
+        .form-header h1 {
+            font-size: 1.5rem;
+        }
+        .upload-label {
+            padding: 12px 20px;
+        }
+    }
+</style>
+
+<script>
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#blah')
+                    .attr('src', e.target.result)
+                    .width(500)
+                    .height(500);
+                $('#blah').show();
+                $('.placeholder').hide();
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
+
+{% if message %}
+    <div class="alert alert-danger">{{ message }}</div>
+{% endif %}
+
+<div class="predictor-container">
+    <div class="form-header">
+        <h1>🫁 Pneumonia Predictor</h1>
+        <p>Upload a chest X-Ray image for AI-based pneumonia detection</p>
+    </div>
+    
+    <div class="form-body">
+        <form class="form-horizontal" action="{{ url_for('pneumoniapredictPage') }}" method="POST" enctype="multipart/form-data">
+            
+            <div class="upload-section">
+                <label class="upload-label">
+                    <span class="upload-icon">📁</span>
+                    <span>Choose X-Ray Image</span>
+                    <input onchange="readURL(this);" type="file" name="image" accept="image/*" required>
+                </label>
+                <p style="margin-top: 15px; color: var(--text-light); font-size: 0.9rem;">
+                    Supported formats: JPG, PNG, JPEG (Max 5MB)
+                </p>
+            </div>
+
+            <div class="image-preview">
+                <span class="placeholder">🖼️ X-Ray image preview will appear here</span>
+                <img id="blah" src="#" alt="UPLOADED IMAGE WILL APPEAR HERE" />
+            </div>
+
+            <input type="submit" class="btn-predict" value="Predict Pneumonia">
+            
+        </form>
+    </div>
+</div>
+{% endblock %}
