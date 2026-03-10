@@ -132,7 +132,7 @@ Result Displayed to User
   ▼
 End
 ### Visual FC
-![Visual Flow Chart](images/flowchart.png)
+![Visual Flow Chart](images/flowchart.jpeg)
 ---
 
 #  Quick Start
