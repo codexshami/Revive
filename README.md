@@ -142,7 +142,7 @@ End
 Clone the repository
 
 
-git clone https://github.com/codexshami/Revive
+git clone https://github.com/codexshami/Revive.git
 ##  Quick Start
 
 ### Step 1
