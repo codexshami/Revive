@@ -1,4 +1,9 @@
+<p align="center">
+
+
 #  Revive - A Machine Learnig model
+
+</div>
 
 <p align="center">
   <img src="static/logo.png" width="200">
