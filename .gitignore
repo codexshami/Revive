@@ -1,1 +1,17 @@
+# Ignore Jupyter Notebook checkpoints
+.ipynb_checkpoints/
 
+# Ignore all checkpoint files inside folders
+**/.ipynb_checkpoints/
+
+# Optional: ignore Python cache files
+__pycache__/
+*.pyc
+
+# Optional: ignore virtual environments
+venv/
+.env/
+
+# Optional: ignore system files
+.DS_Store
+Thumbs.db
