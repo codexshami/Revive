@@ -261,7 +261,7 @@ The system can predict the following diseases:
 **Mohd Shami**
 
  LinkedIn  
-https://www.linkedin.com/in/mohd-shami-792133276
+https://www.linkedin.com/in/codexshami
 
  GitHub  
 https://github.com/codexshami
