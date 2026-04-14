@@ -1,6 +1,5 @@
 <p align="center">
-
-
+  
 #  Revive - A Machine Learnig model
 
 </div>
