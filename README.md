@@ -95,68 +95,55 @@ Datasets were collected from **Kaggle** and **UCI Machine Learning Repository**.
 #  Flow Chart
 
 Start
-
   │
   ▼
   
 User Opens Website
-
   │
   ▼
   
 Flask Server Starts (app.py)
-
   │
   ▼
   
 Homepage Loads (index.html)
-
   │
   ▼
   
 User Selects Disease Prediction
 (Malaria / Pneumonia / Kidney / Liver)
-
   │
   ▼
   
 User Uploads Image / Enters Data
-
   │
   ▼
   
 Flask Receives Input (POST Request)
-
   │
   ▼
   
 Load Trained ML Model (.pkl)
-
   │
   ▼
   
 Preprocess Input Data
-
   │
   ▼
   
 Model Prediction
-
   │
   ▼
   
 Prediction Result Generated
-
   │
   ▼
   
 Result Sent to HTML Template
-
   │
   ▼
   
 Result Displayed to User
-
   │
   ▼
   
